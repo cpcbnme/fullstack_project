@@ -1,0 +1,24 @@
+services:
+    web:
+        build:
+            context: cometa_backendtest
+            target: builder
+        ports:
+            - "8000:8000"
+        networks:
+            - cometa
+        volumes:
+            - ./cometa_backendtest:/app
+    app:
+        build:
+            context: cometa_frontendtest
+            dockerfile: Dockerfile
+        ports:
+            - "3000:3000"
+        networks:
+            - cometa
+        volumes:
+            - ./cometa_frontendtest:/app
+networks:
+    cometa:
+        driver: bridge
