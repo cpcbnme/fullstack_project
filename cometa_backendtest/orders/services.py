@@ -15,6 +15,7 @@ class OrderService:
             name = item_data['name']
             quantity = item_data['quantity']
             price_per_unit = cls.get_price_for_item(name)
+            print(f"Price for {name}: {price_per_unit}")
             total = quantity * price_per_unit
             OrderItem.objects.create(order=order, name=name, price_per_unit=price_per_unit, quantity=quantity)
             subtotal += total
@@ -32,4 +33,10 @@ class OrderService:
     def get_price_for_item(name):
         beers = Stock.objects.filter(beer__name=name)
         if beers.exists():
-            return beers.first().beer.price
+            beer_price_str = beers.first().beer.price
+            try:
+                beer_price = float(beer_price_str)
+                return beer_price
+            except ValueError:
+                return 0
+        return 0
