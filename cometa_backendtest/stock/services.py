@@ -1,4 +1,4 @@
-from .models import Stock
+from .models import Stock, Beer
 
 
 class StockService:
@@ -9,8 +9,11 @@ class StockService:
             if stock.quantity - new_quantity < 0:
                 return False, "Not enough stock available"
             else:
-                stock.quantity = new_quantity
+                stock.quantity += new_quantity
+                beer = Beer.objects.get(id=stock.beer.id)
+                beer.quantity += new_quantity
             stock.save()
+            beer.save()
             return True, None
         except Stock.DoesNotExist:
             return False, "Stock not found for the given beer name"
