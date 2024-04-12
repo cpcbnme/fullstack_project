@@ -5,7 +5,17 @@ interface RowInfo {
     price: number;
     quantity: number;
 }
+
 export default async function StockPage() {
+    // check for service availability
+    try {
+        await fetch("http://localhost:8000/beers");
+    } catch (e) {
+        return (
+            <>
+                <p>Unable to fetch data.</p>
+            </>)
+    }
     const stockData = await fetch("http://localhost:8000/beers").then(res => res.json());
     return (
         <>
