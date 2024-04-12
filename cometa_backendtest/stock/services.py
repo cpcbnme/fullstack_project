@@ -6,7 +6,10 @@ class StockService:
     def update_stock(cls, beer_name, new_quantity):
         try:
             stock = Stock.objects.get(beer__name=beer_name)
-            stock.quantity = new_quantity
+            if stock.quantity - new_quantity < 0:
+                return False, "Not enough stock available"
+            else:
+                stock.quantity = new_quantity
             stock.save()
             return True, None
         except Stock.DoesNotExist:

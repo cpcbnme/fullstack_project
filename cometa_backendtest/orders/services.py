@@ -15,7 +15,7 @@ class OrderService:
             name = item_data['name']
             quantity = item_data['quantity']
             price_per_unit = cls.get_price_for_item(name)
-            print(f"Price for {name}: {price_per_unit}")
+
             total = quantity * price_per_unit
             OrderItem.objects.create(order=order, name=name, price_per_unit=price_per_unit, quantity=quantity)
             subtotal += total
